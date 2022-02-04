@@ -4,28 +4,28 @@ using UnityEngine;
 
 public class Woods : Timer
 {
-    [SerializeField] private int peasentsAmount;
+    [SerializeField] private int civilianAmount;
     
     private bool hired;
 
-    public static int PeasentCost = 1;
+    public int CivilianCost;
 
     protected override void Update()
     {
         base.Update();
 
-        if (timeCounter >= time)
+        if (timeCounter >= timeToFill)
         {
             if (!hired)
             {
-                HQ.HirePeasent(peasentsAmount);
+                HQ.ManipulateResource(HeadQuaters.resourceType.civilians, civilianAmount, true);
                 hired = true;
             }
         }
 
         if (hired)
         {
-            button.interactable = HQ.CanGetPeasent();
+            button.interactable = HQ.CheckResourceRequirements(HeadQuaters.resourceType.food, CivilianCost) && !HQ.IsAtLimit(HeadQuaters.resourceType.civilians);
         }
     }
 
@@ -34,7 +34,7 @@ public class Woods : Timer
         button.interactable = false;
         timeCounter = 0;
 
-        HQ.PaySomeFood(PeasentCost);
+        HQ.ManipulateResource(HeadQuaters.resourceType.food, CivilianCost, false);
         hired = false;
     }
 }

@@ -11,7 +11,7 @@ public class Timer : MonoBehaviour
     protected Image timerImage;
 
 
-    [SerializeField] protected float time;
+    [SerializeField] protected float timeToFill;
     protected float timeCounter;
 
     protected virtual void Start()
@@ -20,13 +20,12 @@ public class Timer : MonoBehaviour
         button = GetComponent<Button>();
         button.interactable = false;
 
-        timeCounter = 0;
-        timerImage.fillAmount = 0;
+        timeCounter = timeToFill;
     }
 
     protected virtual void Update()
     {
         timeCounter += Time.deltaTime;
-        timerImage.fillAmount = timeCounter / time;
+        timerImage.fillAmount = timeCounter / timeToFill;
     }
 }

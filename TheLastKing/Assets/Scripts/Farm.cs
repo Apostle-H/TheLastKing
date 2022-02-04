@@ -6,20 +6,18 @@ public class Farm : Timer
 {
     [SerializeField] bool autoGather;
 
-    private List<int> foodIncome = new List<int>();
+    [SerializeField] private List<int> foodIncome = new List<int>();
 
     protected override void Start()
     {
         base.Start();
-
-        foodIncome.Add(5);
     }
 
     protected override void Update()
     {
         base.Update();
 
-        if (timeCounter >= time)
+        if (timeCounter >= timeToFill)
         {
             if (autoGather)
             {
@@ -37,6 +35,6 @@ public class Farm : Timer
         button.interactable = false;
         timeCounter = 0;
 
-        HQ.StoreFood(foodIncome.ElementsSum());
+        HQ.ManipulateResource(HeadQuaters.resourceType.food, foodIncome.ElementsSum(), true);
     }
 }

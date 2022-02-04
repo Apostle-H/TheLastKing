@@ -8,24 +8,24 @@ public class Barrack : Timer
 
     private bool hired;
 
-    public static int WarriorCost = 2;
+    public int WarriorCost;
 
     protected override void Update()
     {
         base.Update();
 
-        if (timeCounter >= time)
+        if (timeCounter >= timeToFill)
         {
             if (!hired)
             {
-                HQ.HireWarrior(warriorsAmount);
+                HQ.ManipulateResource(HeadQuaters.resourceType.warriors, warriorsAmount, true);
                 hired = true;
             }
         }
 
         if (hired)
         {
-            button.interactable = HQ.CanTrainWarrior();
+            button.interactable = HQ.CheckResourceRequirements(HeadQuaters.resourceType.food, WarriorCost) && !HQ.IsAtLimit(HeadQuaters.resourceType.warriors);
         }
     }
 
@@ -34,7 +34,7 @@ public class Barrack : Timer
         button.interactable = false;
         timeCounter = 0;
 
-        HQ.PaySomeFood(WarriorCost);
+        HQ.ManipulateResource(HeadQuaters.resourceType.food, WarriorCost, false);
         hired = false;
     }
 }
