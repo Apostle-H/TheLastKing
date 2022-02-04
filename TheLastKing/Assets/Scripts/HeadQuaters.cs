@@ -6,59 +6,59 @@ using TMPro;
 public class HeadQuaters : MonoBehaviour
 {
     // resources
-    private int food = 10;
+    private int Apples = 10;
+    private int Sidr = 0;
 
-    private int civilians = 0;
-    private int warriors;
+    private int Civilians = 0;
+    private int Warriors;
 
     // resuorces GUI
-    [SerializeField] private TextMeshProUGUI foodGUI;
+    [SerializeField] private TextMeshProUGUI ApplesGUI;
+    [SerializeField] private TextMeshProUGUI SidrGUI;
 
-    [SerializeField] private TextMeshProUGUI civiliansGUI;
-    [SerializeField] private TextMeshProUGUI warriorsGUI;
+    [SerializeField] private TextMeshProUGUI CiviliansGUI;
+    [SerializeField] private TextMeshProUGUI WarriorsGUI;
 
     // 
-    [SerializeField] private Village village;
-    [SerializeField] private GameObject winPanel;
-    [SerializeField] private GameObject losePanel;
-
-    public enum resourceType
-    {
-        food,
-        civilians,
-        warriors
-    }
+    [SerializeField] private Village Village;
+    [SerializeField] private GameObject WinPanel;
+    [SerializeField] private GameObject LosePanel;
 
     private void Start()
     {
-        foodGUI.text = food.ToString();
-        civiliansGUI.text = civilians.ToString();
-        warriorsGUI.text = warriors.ToString();
+        ApplesGUI.text = Apples.ToString();
+        SidrGUI.text = Sidr.ToString();
+        CiviliansGUI.text = Civilians.ToString() + "/" + Village.CivilianLimit.ToString();
+        WarriorsGUI.text = Warriors.ToString() + "/" + Village.WarriorLimit.ToString();
     }
 
     public void ManipulateResource(resourceType resource, int amount, bool getOrLose)
     {
         switch (resource)
         {
-            case resourceType.food:
-                food += getOrLose ? amount : -amount;
-                foodGUI.text = food.ToString();
+            case resourceType.apples:
+                Apples += getOrLose ? amount : -amount;
+                ApplesGUI.text = Apples.ToString();
+                break;
+            case resourceType.sidr:
+                Sidr += getOrLose ? amount : -amount;
+                SidrGUI.text = Sidr.ToString();
                 break;
             case resourceType.civilians:
-                if (civilians + amount <= village.CivilianLimit)
+                if (Civilians + amount <= Village.CivilianLimit)
                 {
-                    civilians += getOrLose ? amount : -amount;
+                    Civilians += getOrLose ? amount : -amount;
                 }
                 
-                civiliansGUI.text = civilians.ToString() + "/" + village.CivilianLimit.ToString();
+                CiviliansGUI.text = Civilians.ToString() + "/" + Village.CivilianLimit.ToString();
                 break;
             case resourceType.warriors:
-                if (warriors + amount <= village.WarriorLimit)
+                if (Warriors + amount <= Village.WarriorLimit)
                 {
-                    warriors += getOrLose ? amount : -amount;
+                    Warriors += getOrLose ? amount : -amount;
                 }
                
-                warriorsGUI.text = warriors.ToString() + "/" + village.WarriorLimit.ToString();
+                WarriorsGUI.text = Warriors.ToString() + "/" + Village.WarriorLimit.ToString();
                 break;
         }
     }
@@ -67,12 +67,14 @@ public class HeadQuaters : MonoBehaviour
     {
         switch (resource)
         {
-            case resourceType.food:
-                return food >= requiredAmout;
+            case resourceType.apples:
+                return Apples >= requiredAmout;
+            case resourceType.sidr:
+                return Sidr >= requiredAmout;
             case resourceType.civilians:
-                return civilians >= requiredAmout;
+                return Civilians >= requiredAmout;
             case resourceType.warriors:
-                return warriors >= requiredAmout;
+                return Warriors >= requiredAmout;
         }
 
         return false;
@@ -82,12 +84,12 @@ public class HeadQuaters : MonoBehaviour
     {
         switch (resource)
         {
-            case resourceType.food:
+            case resourceType.apples:
                 break;
             case resourceType.civilians:
-                return civilians == village.CivilianLimit;
+                return Civilians == Village.CivilianLimit;
             case resourceType.warriors:
-                return warriors == village.WarriorLimit;
+                return Warriors == Village.WarriorLimit;
         }
 
         return false;
@@ -95,29 +97,29 @@ public class HeadQuaters : MonoBehaviour
 
     public void War(int enemyAmount)
     {
-        warriors -= enemyAmount;
-        if (warriors < 0)
+        Warriors -= enemyAmount;
+        if (Warriors < 0)
         {
-            civilians += warriors * 2;
-            warriors = 0;
-            if (civilians < 1)
+            Civilians += Warriors * 2;
+            Warriors = 0;
+            if (Civilians < 1)
             {
                 Lose();
-                civilians = 0;
+                Civilians = 0;
             }
         }
 
-        civiliansGUI.text = civilians.ToString() + "/" + village.CivilianLimit.ToString();
-        warriorsGUI.text = warriors.ToString() + "/" + village.WarriorLimit.ToString();
+        CiviliansGUI.text = Civilians.ToString() + "/" + Village.CivilianLimit.ToString();
+        WarriorsGUI.text = Warriors.ToString() + "/" + Village.WarriorLimit.ToString();
     }
 
     public void Win()
     {
-        winPanel.SetActive(true);
+        WinPanel.SetActive(true);
     }
 
     public void Lose()
     {
-        losePanel.SetActive(true);
+        LosePanel.SetActive(true);
     }
 }

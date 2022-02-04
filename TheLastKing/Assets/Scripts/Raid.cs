@@ -12,18 +12,18 @@ public class Raid : Timer
 
     protected override void Start()
     {
-        timerImage = GetComponent<Image>();
+        TimerImage = GetComponent<Image>();
 
-        timeToFill = waves[waveIndex].Time;
-        timeCounter = timeToFill;
+        TimeToFill = waves[waveIndex].Time;
+        TimeCounter = TimeToFill;
     }
 
     protected override void Update()
     {
-        timeCounter -= Time.deltaTime;
-        timerImage.fillAmount = timeCounter / timeToFill;
+        TimeCounter -= Time.deltaTime;
+        TimerImage.fillAmount = TimeCounter / TimeToFill;
 
-        if (timeCounter <= 0 && !end)
+        if (TimeCounter <= 0 && !end)
         {
             StartWave();
         }
@@ -31,7 +31,7 @@ public class Raid : Timer
 
     public void StartWave()
     {
-        timeCounter = 0;
+        TimeCounter = 0;
         HQ.War(waves[waveIndex].EnemiesAmount);
         NextWave();
     }
@@ -40,8 +40,8 @@ public class Raid : Timer
     {
         if (++waveIndex < waves.Length)
         {
-            timeToFill = waves[waveIndex].Time;
-            timeCounter = timeToFill;
+            TimeToFill = waves[waveIndex].Time;
+            TimeCounter = TimeToFill;
         }
         else
         {
