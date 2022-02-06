@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class Garden : ResourceProducer
 {
+    [Header("Gardens specials")]
     [SerializeField] bool Auto;
 
     protected override void Start()
     {
         base.Start();
+
+        ProducableAmount = HQ.civilians;
 
         if (Auto)
         {
@@ -20,5 +23,10 @@ public class Garden : ResourceProducer
     {
         base.GetResource();
         ProduceResource();
+    }
+
+    public void UpdateCiviliansAmount(int civiliansAmount)
+    {
+        ProducableAmount = civiliansAmount;
     }
 }

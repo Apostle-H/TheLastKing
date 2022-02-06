@@ -4,13 +4,15 @@ using UnityEngine;
 
 public abstract class ResourceProducer : Timer
 {
-    [SerializeField] private resourceType Resource;
-    [SerializeField] private int ProducableAmount;
+    [Header("Resource producement")]
+    [SerializeField] protected resourceType Resource;
+    [SerializeField] protected int ProducableAmount;
 
     [SerializeField] private bool NeedMaterials;
     [SerializeField] private resourceType Material;
-    [SerializeField] private int MaterialAmount;    
+    [SerializeField] private int MaterialAmount;
 
+    private float ProducableAmountMultiplier = 1;
     protected bool GotResource = true;
 
     protected override void Start()
@@ -32,8 +34,13 @@ public abstract class ResourceProducer : Timer
 
         if (GotResource)
         {
-            ActionButton.interactable = HQ.CheckResourceRequirements(Material, MaterialAmount);
+            ActionButton.interactable = CheckWorkRequirements();
         }
+    }
+
+    protected virtual bool CheckWorkRequirements()
+    {
+        return HQ.CheckResourceAmount(Material, MaterialAmount);
     }
 
     public virtual void ProduceResource()
@@ -47,8 +54,12 @@ public abstract class ResourceProducer : Timer
 
     protected virtual void GetResource()
     {
-        HQ.ManipulateResource(Resource, ProducableAmount, true);
+        HQ.ManipulateResource(Resource, (int)Mathf.Round(ProducableAmount * ProducableAmountMultiplier), true);
         GotResource = true;
     }
 
+    public virtual void ChangeMultiplier(float newMultiplier)
+    {
+        ProducableAmountMultiplier = newMultiplier;
+    }
 }

@@ -4,12 +4,20 @@ using UnityEngine;
 
 public class Village : MonoBehaviour
 {
-    private int civilianLimit = 10;
-    private int warriorLimit = 10;
+    [SerializeField] private HeadQuaters HQ;
 
-    public int CivilianLimit { get { return civilianLimit; } }
-    public int WarriorLimit { get { return warriorLimit; } }
+    private int CivilianLimit = 10;
+    private int WarriorLimit = 10;
 
-    [SerializeField] private Vector2 LevelsStats;
+    public int civilianLimit { get { return CivilianLimit; } }
+    public int warriorLimit { get { return WarriorLimit; } }
 
+    public void ChangeLimit(int newCivilianLimit, int newWarriorLimit)
+    {
+        CivilianLimit = newCivilianLimit;
+        WarriorLimit = newWarriorLimit;
+
+        HQ.ManipulateResource(resourceType.civilians, 0, false);
+        HQ.ManipulateResource(resourceType.warriors, 0, false);
+    }
 }

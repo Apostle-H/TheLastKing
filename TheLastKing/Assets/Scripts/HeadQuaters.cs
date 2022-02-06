@@ -9,8 +9,10 @@ public class HeadQuaters : MonoBehaviour
     private int Apples = 10;
     private int Sidr = 0;
 
-    private int Civilians = 0;
+    private int Civilians = 5;
     private int Warriors;
+
+    public int civilians { get { return Civilians; } }
 
     // resuorces GUI
     [SerializeField] private TextMeshProUGUI ApplesGUI;
@@ -18,6 +20,10 @@ public class HeadQuaters : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI CiviliansGUI;
     [SerializeField] private TextMeshProUGUI WarriorsGUI;
+
+    // Buildings
+    [SerializeField] Garden Garden;
+    [SerializeField] Tower Tower;
 
     // 
     [SerializeField] private Village Village;
@@ -28,8 +34,8 @@ public class HeadQuaters : MonoBehaviour
     {
         ApplesGUI.text = Apples.ToString();
         SidrGUI.text = Sidr.ToString();
-        CiviliansGUI.text = Civilians.ToString() + "/" + Village.CivilianLimit.ToString();
-        WarriorsGUI.text = Warriors.ToString() + "/" + Village.WarriorLimit.ToString();
+        CiviliansGUI.text = Civilians.ToString() + "/" + Village.civilianLimit.ToString();
+        WarriorsGUI.text = Warriors.ToString() + "/" + Village.warriorLimit.ToString();
     }
 
     public void ManipulateResource(resourceType resource, int amount, bool getOrLose)
@@ -45,25 +51,26 @@ public class HeadQuaters : MonoBehaviour
                 SidrGUI.text = Sidr.ToString();
                 break;
             case resourceType.civilians:
-                if (Civilians + amount <= Village.CivilianLimit)
+                if (Civilians + amount <= Village.civilianLimit)
                 {
                     Civilians += getOrLose ? amount : -amount;
+                    Garden.UpdateCiviliansAmount(Civilians);
                 }
                 
-                CiviliansGUI.text = Civilians.ToString() + "/" + Village.CivilianLimit.ToString();
+                CiviliansGUI.text = Civilians.ToString() + "/" + Village.civilianLimit.ToString();
                 break;
             case resourceType.warriors:
-                if (Warriors + amount <= Village.WarriorLimit)
+                if (Warriors + amount <= Village.warriorLimit)
                 {
                     Warriors += getOrLose ? amount : -amount;
                 }
                
-                WarriorsGUI.text = Warriors.ToString() + "/" + Village.WarriorLimit.ToString();
+                WarriorsGUI.text = Warriors.ToString() + "/" + Village.warriorLimit.ToString();
                 break;
         }
     }
 
-    public bool CheckResourceRequirements(resourceType resource, int requiredAmout)
+    public bool CheckResourceAmount(resourceType resource, int requiredAmout)
     {
         switch (resource)
         {
@@ -87,17 +94,31 @@ public class HeadQuaters : MonoBehaviour
             case resourceType.apples:
                 break;
             case resourceType.civilians:
-                return Civilians == Village.CivilianLimit;
+                return Civilians == Village.civilianLimit;
             case resourceType.warriors:
-                return Warriors == Village.WarriorLimit;
+                return Warriors == Village.warriorLimit;
         }
 
         return false;
     }
 
+    public void DrinkSidr()
+    {
+        Sidr -= Warriors;
+
+        if (Sidr < 0)
+        {
+            Warriors += Sidr;
+            Sidr = 0;
+        }
+
+        SidrGUI.text = Sidr.ToString();
+        WarriorsGUI.text = Warriors.ToString() + "/" + Village.warriorLimit.ToString();
+    }
+
     public void War(int enemyAmount)
     {
-        Warriors -= enemyAmount;
+        Warriors -= (enemyAmount - Tower.warriorsAmount);
         if (Warriors < 0)
         {
             Civilians += Warriors * 2;
@@ -107,10 +128,12 @@ public class HeadQuaters : MonoBehaviour
                 Lose();
                 Civilians = 0;
             }
+
+            Garden.UpdateCiviliansAmount(Civilians);
         }
 
-        CiviliansGUI.text = Civilians.ToString() + "/" + Village.CivilianLimit.ToString();
-        WarriorsGUI.text = Warriors.ToString() + "/" + Village.WarriorLimit.ToString();
+        CiviliansGUI.text = Civilians.ToString() + "/" + Village.civilianLimit.ToString();
+        WarriorsGUI.text = Warriors.ToString() + "/" + Village.warriorLimit.ToString();
     }
 
     public void Win()

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class Wave
+public struct CiviliansWarriorsAmount 
 {
-    public int time;
-    public int enemiesAmount;
-}
+    public int Civilians;
+    public int Warriors;
+};

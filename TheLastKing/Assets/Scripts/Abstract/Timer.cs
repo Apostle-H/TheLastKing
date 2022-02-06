@@ -6,17 +6,16 @@ using UnityEngine.UI;
 public abstract class Timer : MonoBehaviour
 {
     [SerializeField] protected HeadQuaters HQ;
+
+    [Header("Timer")]
     [SerializeField] protected float TimeToFill;
 
-    protected Button ActionButton;
-    protected Image TimerImage;
+    [SerializeField] protected Button ActionButton;
+    [SerializeField] protected Image TimerImage;
     protected float TimeCounter;
 
     protected virtual void Start()
     {
-        TimerImage = GetComponent<Image>();
-        ActionButton = GetComponent<Button>();
-
         TimeCounter = TimeToFill;
     }
 
