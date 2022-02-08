@@ -7,10 +7,13 @@ using TMPro;
 public class Tower : MonoBehaviour
 {
     [SerializeField] private HeadQuaters HQ;
+
     [SerializeField] private int WarriorsLimit;
 
     [SerializeField] private Button AddWarriorButton;
     [SerializeField] private TextMeshProUGUI WarriorsInGUI;
+
+    public int warriorsLimit { get { return WarriorsLimit; } }
 
     private int WarriorsAmount;
 

@@ -18,8 +18,11 @@ public class Raid : Timer
 
     protected override void Update()
     {
-        TimeCounter -= Time.deltaTime;
-        TimerImage.fillAmount = TimeCounter / TimeToFill;
+        if (!Pause.isPaused)
+        {
+            TimeCounter -= Time.deltaTime;
+            TimerImage.fillAmount = TimeCounter / TimeToFill;
+        }
 
         if (TimeCounter <= 0 && !end)
         {

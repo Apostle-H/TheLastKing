@@ -2,10 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Woods : ResourceProducer
+public class Woods : UnitProducer
 {
-    protected override bool CheckWorkRequirements()
-    {
-        return base.CheckWorkRequirements() && !HQ.IsAtLimit(Resource);
-    }
+    
 }

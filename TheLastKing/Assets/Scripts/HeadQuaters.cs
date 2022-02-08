@@ -5,50 +5,60 @@ using TMPro;
 
 public class HeadQuaters : MonoBehaviour
 {
-    // resources
-    private int Apples = 10;
-    private int Sidr = 0;
+    [Header("Resources")] 
+    [SerializeField] private int Apples;
+    [SerializeField] private int Sidr;
 
-    private int Civilians = 5;
-    private int Warriors;
+    [SerializeField] private int Civilians;
+    [SerializeField] private int Warriors;
 
-    public int civilians { get { return Civilians; } }
-
-    // resuorces GUI
+    [Header("Resuorces GUI")]
     [SerializeField] private TextMeshProUGUI ApplesGUI;
     [SerializeField] private TextMeshProUGUI SidrGUI;
 
     [SerializeField] private TextMeshProUGUI CiviliansGUI;
     [SerializeField] private TextMeshProUGUI WarriorsGUI;
 
-    // Buildings
+    [Header("Buildings")]
     [SerializeField] Garden Garden;
-    [SerializeField] Tower Tower;
-
-    // 
+    [SerializeField] Tower Tower; 
     [SerializeField] private Village Village;
+
+    [Header("Win/Lose panels")] 
     [SerializeField] private GameObject WinPanel;
     [SerializeField] private GameObject LosePanel;
 
+    // Properties
+    public int apples { get { return Apples; } }
+    public int sidr { get { return Sidr; } }
+    public int civilians { get { return Civilians; } }
+    public int warriors { get { return Warriors; } }
+
     private void Start()
     {
-        ApplesGUI.text = Apples.ToString();
-        SidrGUI.text = Sidr.ToString();
-        CiviliansGUI.text = Civilians.ToString() + "/" + Village.civilianLimit.ToString();
-        WarriorsGUI.text = Warriors.ToString() + "/" + Village.warriorLimit.ToString();
+        WriteResourceValues(resourceType.apples);
+        WriteResourceValues(resourceType.sidr);
+        WriteResourceValues(resourceType.civilians);
+        WriteResourceValues(resourceType.warriors);
     }
 
+    /// <summary>
+    /// Change any "resource" value by "amout"
+    /// </summary>
+    /// <param name="resource"></param>
+    /// <param name="amount"></param>
+    /// <param name="getOrLose"></param>
     public void ManipulateResource(resourceType resource, int amount, bool getOrLose)
     {
         switch (resource)
         {
             case resourceType.apples:
                 Apples += getOrLose ? amount : -amount;
-                ApplesGUI.text = Apples.ToString();
+                WriteResourceValues(resourceType.apples);
                 break;
             case resourceType.sidr:
                 Sidr += getOrLose ? amount : -amount;
-                SidrGUI.text = Sidr.ToString();
+                WriteResourceValues(resourceType.sidr);
                 break;
             case resourceType.civilians:
                 if (Civilians + amount <= Village.civilianLimit)
@@ -56,20 +66,44 @@ public class HeadQuaters : MonoBehaviour
                     Civilians += getOrLose ? amount : -amount;
                     Garden.UpdateCiviliansAmount(Civilians);
                 }
-                
-                CiviliansGUI.text = Civilians.ToString() + "/" + Village.civilianLimit.ToString();
+
+                WriteResourceValues(resourceType.civilians);
                 break;
             case resourceType.warriors:
                 if (Warriors + amount <= Village.warriorLimit)
                 {
                     Warriors += getOrLose ? amount : -amount;
                 }
-               
-                WarriorsGUI.text = Warriors.ToString() + "/" + Village.warriorLimit.ToString();
+
+                WriteResourceValues(resourceType.warriors);
                 break;
         }
     }
 
+    public int GetResourceValue(resourceType resource)
+    {
+        switch (resource)
+        {
+            case resourceType.apples:
+                return Apples;
+            case resourceType.sidr:
+                return Sidr;
+            case resourceType.civilians:
+                return Civilians;
+            case resourceType.warriors:
+                return Warriors;
+        }
+
+        return 0;
+    }
+
+
+    /// <summary>
+    /// Checks if there is more or eaqual to "reqiredAmount" of some "resource"
+    /// </summary>
+    /// <param name="resource"></param>
+    /// <param name="requiredAmout"></param>
+    /// <returns></returns>
     public bool CheckResourceAmount(resourceType resource, int requiredAmout)
     {
         switch (resource)
@@ -87,12 +121,15 @@ public class HeadQuaters : MonoBehaviour
         return false;
     }
 
+    /// <summary>
+    /// Checks if civilians or warriors are at their limit
+    /// </summary>
+    /// <param name="resource"></param>
+    /// <returns></returns>
     public bool IsAtLimit(resourceType resource)
     {
         switch (resource)
         {
-            case resourceType.apples:
-                break;
             case resourceType.civilians:
                 return Civilians == Village.civilianLimit;
             case resourceType.warriors:
@@ -102,6 +139,9 @@ public class HeadQuaters : MonoBehaviour
         return false;
     }
 
+    /// <summary>
+    /// Consumes one 'sidr' per every 'warrior'
+    /// </summary>
     public void DrinkSidr()
     {
         Sidr -= Warriors;
@@ -112,10 +152,14 @@ public class HeadQuaters : MonoBehaviour
             Sidr = 0;
         }
 
-        SidrGUI.text = Sidr.ToString();
-        WarriorsGUI.text = Warriors.ToString() + "/" + Village.warriorLimit.ToString();
+        WriteResourceValues(resourceType.sidr);
+        WriteResourceValues(resourceType.warriors);
     }
 
+    /// <summary>
+    /// Counts war results
+    /// </summary>
+    /// <param name="enemyAmount"></param>
     public void War(int enemyAmount)
     {
         Warriors -= (enemyAmount - Tower.warriorsAmount);
@@ -132,8 +176,8 @@ public class HeadQuaters : MonoBehaviour
             Garden.UpdateCiviliansAmount(Civilians);
         }
 
-        CiviliansGUI.text = Civilians.ToString() + "/" + Village.civilianLimit.ToString();
-        WarriorsGUI.text = Warriors.ToString() + "/" + Village.warriorLimit.ToString();
+        WriteResourceValues(resourceType.civilians);
+        WriteResourceValues(resourceType.warriors);
     }
 
     public void Win()
@@ -144,5 +188,29 @@ public class HeadQuaters : MonoBehaviour
     public void Lose()
     {
         LosePanel.SetActive(true);
+    }
+
+
+    /// <summary>
+    /// Writes "resource" values in the GUI field
+    /// </summary>
+    /// <param name="resource"></param>
+    private void WriteResourceValues(resourceType resource)
+    {
+        switch (resource)
+        {
+            case resourceType.apples:
+                ApplesGUI.text = Apples.ToString();
+                break;
+            case resourceType.sidr:
+                SidrGUI.text = Sidr.ToString();
+                break;
+            case resourceType.civilians:
+                CiviliansGUI.text = Civilians.ToString() + "/" + Village.civilianLimit.ToString();
+                break;
+            case resourceType.warriors:
+                WarriorsGUI.text = Warriors.ToString() + "/" + Village.warriorLimit.ToString();
+                break;
+        }
     }
 }

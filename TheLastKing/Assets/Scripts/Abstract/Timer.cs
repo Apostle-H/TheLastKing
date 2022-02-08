@@ -21,7 +21,10 @@ public abstract class Timer : MonoBehaviour
 
     protected virtual void Update()
     {
-        TimeCounter += Time.deltaTime;
-        TimerImage.fillAmount = TimeCounter / TimeToFill;
+        if (!Pause.isPaused)
+        {
+            TimeCounter += Time.deltaTime;
+            TimerImage.fillAmount = TimeCounter / TimeToFill;
+        }
     }
 }

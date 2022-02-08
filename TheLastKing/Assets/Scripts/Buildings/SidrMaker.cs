@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SidrMaker : ResourceProducer
 {
+    [Header("Sidr specials")]
     [SerializeField] bool Auto;
 
     protected override void Start()
@@ -19,6 +20,7 @@ public class SidrMaker : ResourceProducer
     protected override void GetResource()
     {
         base.GetResource();
+
         if (Auto)
         {
             ProduceResource();
