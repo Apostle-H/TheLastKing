@@ -15,7 +15,7 @@ public class MultiplierUpgrade : EmptyUpgrade
     protected override void Start()
     {
         base.Start();
-        UpgradeChanges.text = CurrentLevel > 0 ? (LevelsValues[CurrentLevel - 1].ToString() + " -> " + LevelsValues[CurrentLevel].ToString()) : (UpgradableBuilding.GetPureMultiplier().ToString() + " -> " + LevelsValues[CurrentLevel].ToString());
+        UpgradeChanges.text = (CurrentLevel > 0 ? LevelsValues[CurrentLevel - 1].ToString() : UpgradableBuilding.producableAmountMultiplier.ToString()) + " -> " + LevelsValues[CurrentLevel].ToString();
     }
 
     public override void Upgrade()
@@ -23,7 +23,7 @@ public class MultiplierUpgrade : EmptyUpgrade
         UpgradableBuilding.ChangeMultiplier(LevelsValues[CurrentLevel]);
         base.Upgrade();
 
-        UpgradeChanges.text = CurrentLevel > 0 ? (LevelsValues[CurrentLevel - 1].ToString() + " -> " + LevelsValues[CurrentLevel].ToString()) : (UpgradableBuilding.GetPureMultiplier().ToString() + " -> " + LevelsValues[CurrentLevel].ToString());
+        UpgradeChanges.text = (CurrentLevel > 0 ? LevelsValues[CurrentLevel - 1].ToString() : UpgradableBuilding.producableAmountMultiplier.ToString()) + " -> " + LevelsValues[CurrentLevel].ToString();
         ThisUpgradeButton.GetComponentInChildren<TextMeshProUGUI>().text = CurrentLevel.ToString() + " " + "LV.";
 
         if (CurrentLevel >= LevelsValues.Length)

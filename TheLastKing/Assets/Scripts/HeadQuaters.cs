@@ -19,6 +19,13 @@ public class HeadQuaters : MonoBehaviour
     [SerializeField] private TextMeshProUGUI CiviliansGUI;
     [SerializeField] private TextMeshProUGUI WarriorsGUI;
 
+    [Header("Resuorces event multiplier GUI")]
+    [SerializeField] private TextMeshProUGUI ApplesEventMultiplierGUI;
+    [SerializeField] private TextMeshProUGUI SidrEventMultiplierGUI;
+
+    [SerializeField] private TextMeshProUGUI CiviliansEventMultiplierGUI;
+    [SerializeField] private TextMeshProUGUI WarriorsEventMultiplierGUI;
+
     [Header("Buildings")]
     [SerializeField] Garden Garden;
     [SerializeField] Tower Tower; 
@@ -27,6 +34,11 @@ public class HeadQuaters : MonoBehaviour
     [Header("Win/Lose panels")] 
     [SerializeField] private GameObject WinPanel;
     [SerializeField] private GameObject LosePanel;
+
+    private float applesEventMultiplier = 1;
+    private float sidrEventMultiplier = 1;
+    private float civiliansEventMultiplier = 1;
+    private float warriorsEventMultiplier = 1;
 
     // Properties
     public int apples { get { return Apples; } }
@@ -53,27 +65,21 @@ public class HeadQuaters : MonoBehaviour
         switch (resource)
         {
             case resourceType.apples:
-                Apples += getOrLose ? amount : -amount;
+                Apples += Mathf.RoundToInt((getOrLose ? amount : -amount) * applesEventMultiplier);
                 WriteResourceValues(resourceType.apples);
                 break;
             case resourceType.sidr:
-                Sidr += getOrLose ? amount : -amount;
+                Sidr += Mathf.RoundToInt((getOrLose ? amount : -amount) * sidrEventMultiplier);
                 WriteResourceValues(resourceType.sidr);
                 break;
             case resourceType.civilians:
-                if (Civilians + amount <= Village.civilianLimit)
-                {
-                    Civilians += getOrLose ? amount : -amount;
-                    Garden.UpdateCiviliansAmount(Civilians);
-                }
+                Civilians += Mathf.RoundToInt((getOrLose ? (Civilians + amount < Village.civilianLimit ? amount : Village.civilianLimit - Civilians) : -amount) * civiliansEventMultiplier);
+                Garden.UpdateCiviliansAmount(Civilians);
 
                 WriteResourceValues(resourceType.civilians);
                 break;
             case resourceType.warriors:
-                if (Warriors + amount <= Village.warriorLimit)
-                {
-                    Warriors += getOrLose ? amount : -amount;
-                }
+                Warriors += Mathf.RoundToInt((getOrLose ? (Warriors + amount < Village.warriorLimit ? amount : Village.warriorLimit - Warriors) : -amount) * warriorsEventMultiplier);
 
                 WriteResourceValues(resourceType.warriors);
                 break;
@@ -210,6 +216,57 @@ public class HeadQuaters : MonoBehaviour
                 break;
             case resourceType.warriors:
                 WarriorsGUI.text = Warriors.ToString() + "/" + Village.warriorLimit.ToString();
+                break;
+        }
+    }
+
+    public void MultiplyResourceEventMultiplier(resourceType resource, float multiplier)
+    {
+        switch (resource)
+        {
+            case resourceType.apples:
+                applesEventMultiplier *= multiplier;
+                if (applesEventMultiplier != 1)
+                {
+                    ApplesEventMultiplierGUI.text = Mathf.RoundToInt(applesEventMultiplier * 100).ToString() + "%";
+                }
+                else
+                {
+                    ApplesEventMultiplierGUI.text = string.Empty;
+                }
+                break;
+            case resourceType.sidr:
+                sidrEventMultiplier *= multiplier;
+                if (sidrEventMultiplier != 1)
+                {
+                    SidrEventMultiplierGUI.text = Mathf.RoundToInt(sidrEventMultiplier * 100).ToString() + "%";
+                }
+                else
+                {
+                    SidrEventMultiplierGUI.text = string.Empty;
+                }
+                break;
+            case resourceType.civilians:
+                civiliansEventMultiplier *= multiplier;
+                if (civiliansEventMultiplier != 1)
+                {
+                    CiviliansEventMultiplierGUI.text = Mathf.RoundToInt(civiliansEventMultiplier * 100).ToString() + "%";
+                }
+                else
+                {
+                    CiviliansEventMultiplierGUI.text = string.Empty;
+                }
+                break;
+            case resourceType.warriors:
+                warriorsEventMultiplier *= multiplier;
+                if (warriorsEventMultiplier != 1)
+                {
+                    WarriorsEventMultiplierGUI.text = Mathf.RoundToInt(warriorsEventMultiplier * 100).ToString() + "%";
+                }
+                else
+                {
+                    WarriorsEventMultiplierGUI.text = string.Empty;
+                }
                 break;
         }
     }
