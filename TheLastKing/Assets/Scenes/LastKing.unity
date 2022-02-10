@@ -5766,10 +5766,28 @@ MonoBehaviour:
   ActionButton: {fileID: 502230267}
   TimerImage: {fileID: 502230268}
   waves:
-  - time: 40
-    enemiesAmount: 3
-  - time: 40
+  - time: 60
     enemiesAmount: 5
+  - time: 60
+    enemiesAmount: 10
+  - time: 60
+    enemiesAmount: 10
+  - time: 60
+    enemiesAmount: 15
+  - time: 60
+    enemiesAmount: 20
+  - time: 60
+    enemiesAmount: 25
+  - time: 60
+    enemiesAmount: 30
+  - time: 60
+    enemiesAmount: 35
+  - time: 60
+    enemiesAmount: 40
+  - time: 60
+    enemiesAmount: 45
+  - time: 60
+    enemiesAmount: 50
 --- !u!114 &502230267
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6012,7 +6030,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HQ: {fileID: 224083842}
   UpgradeMaterial: 0
-  UpgradeLevelsMaterialAmount: 02000000
+  UpgradeLevelsMaterialAmount: 1e0000005000000082000000
   ThisUpgradeButton: {fileID: 565647548}
   UpgradeCostGUI: {fileID: 2098184147}
   ZeroLevelTilemap: {fileID: 853468627}
@@ -6023,6 +6041,8 @@ MonoBehaviour:
   UpgradableBuilding: {fileID: 672918781}
   LevelsValues:
   - 2
+  - 3
+  - 4
   UpgradeChanges: {fileID: 1389820956}
 --- !u!1 &569304467
 GameObject:
@@ -8790,7 +8810,7 @@ MonoBehaviour:
   ProducableAmountMultiplier: 1
   NeedMaterials: 1
   Material: 0
-  MaterialAmount: 2
+  MaterialAmount: 3
 --- !u!1 &720371700
 GameObject:
   m_ObjectHideFlags: 0
@@ -9182,11 +9202,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HQ: {fileID: 224083842}
-  TimeToFill: 2
+  TimeToFill: 2.5
   ActionButton: {fileID: 790229463}
   TimerImage: {fileID: 790229464}
   Resource: 0
-  ProducableAmountMultiplier: 1
+  ProducableAmountMultiplier: 0.5
   NeedMaterials: 0
   Material: 0
   MaterialAmount: 0
@@ -26022,7 +26042,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HQ: {fileID: 224083842}
   UpgradeMaterial: 0
-  UpgradeLevelsMaterialAmount: 02000000
+  UpgradeLevelsMaterialAmount: 2d0000004b00000087000000
   ThisUpgradeButton: {fileID: 1535667980}
   UpgradeCostGUI: {fileID: 40004847}
   ZeroLevelTilemap: {fileID: 299146055}
@@ -26032,7 +26052,9 @@ MonoBehaviour:
   - {fileID: 277145528}
   UpgradableBuilding: {fileID: 427528682}
   LevelsValues:
-  - 2
+  - 1.5
+  - 2.5
+  - 3.5
   UpgradeChanges: {fileID: 669989621}
 --- !u!1 &1537251611
 GameObject:
@@ -30092,7 +30114,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HQ: {fileID: 224083842}
   UpgradeMaterial: 0
-  UpgradeLevelsMaterialAmount: 02000000
+  UpgradeLevelsMaterialAmount: 0f0000003c00000096000000
   ThisUpgradeButton: {fileID: 2043831719}
   UpgradeCostGUI: {fileID: 455344159}
   ZeroLevelTilemap: {fileID: 986863254}
@@ -30102,7 +30124,9 @@ MonoBehaviour:
   - {fileID: 443807504}
   UpgradableBuilding: {fileID: 790229462}
   LevelsValues:
+  - 1.5
   - 2
+  - 2.5
   UpgradeChanges: {fileID: 303684783}
 --- !u!114 &2043831719
 MonoBehaviour:
