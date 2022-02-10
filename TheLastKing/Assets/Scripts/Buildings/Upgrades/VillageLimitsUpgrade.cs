@@ -25,7 +25,6 @@ public class VillageLimitsUpgrade : EmptyUpgrade
         
         UpgradeChanges.text = CurrentLevel > 0 ? (LevelsValues[CurrentLevel - 1].ToString() + " -> " + LevelsValues[CurrentLevel].ToString()) : (UpgradableBuilding.civilianLimit.ToString() + " -> " + LevelsValues[CurrentLevel].ToString());
         UpgradeChanges.text += "\n" + (CurrentLevel > 0 ? (LevelsValues[CurrentLevel - 1].ToString() + " -> " + LevelsValues[CurrentLevel].ToString()) : (UpgradableBuilding.warriorLimit.ToString() + " -> " + LevelsValues[CurrentLevel].ToString()));
-        ThisUpgradeButton.GetComponentInChildren<TextMeshProUGUI>().text = CurrentLevel.ToString() + " " + "LV.";
 
         if (CurrentLevel >= LevelsValues.Length)
         {

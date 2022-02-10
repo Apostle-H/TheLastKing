@@ -19,6 +19,7 @@ public abstract class EmptyUpgrade : MonoBehaviour
     protected virtual void Start()
     {
         UpgradeCostGUI.text = UpgradeLevelsMaterialAmount[CurrentLevel].ToString() + " " + UpgradeMaterial.ToString();
+        ThisUpgradeButton.GetComponentInChildren<TextMeshProUGUI>().text = CurrentLevel.ToString() + " " + "LV.";
     }
 
     protected virtual void Update()
@@ -37,5 +38,6 @@ public abstract class EmptyUpgrade : MonoBehaviour
         CurrentLevel++;
 
         UpgradeCostGUI.text = UpgradeLevelsMaterialAmount[CurrentLevel].ToString() + " " + UpgradeMaterial.ToString();
+        ThisUpgradeButton.GetComponentInChildren<TextMeshProUGUI>().text = CurrentLevel.ToString() + " " + "LV.";
     }
 }

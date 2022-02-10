@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public abstract class ResourceProducer : Timer
 {
@@ -12,6 +13,9 @@ public abstract class ResourceProducer : Timer
     [SerializeField] private resourceType Material;
     [SerializeField] private int MaterialAmount;
 
+    [SerializeField] private TextMeshProUGUI MaterialResourceText;
+    [SerializeField] private TextMeshProUGUI MaterialResourceAmountText;
+
     protected int ProducableAmount = 1;
     protected bool GotResource = true;
 
@@ -20,6 +24,12 @@ public abstract class ResourceProducer : Timer
     protected override void Start()
     {
         base.Start();
+
+        if (NeedMaterials)
+        {
+            MaterialResourceText.text = Material.ToString();
+            MaterialResourceAmountText.text = MaterialAmount.ToString();
+        }
     }
 
     protected override void Update()

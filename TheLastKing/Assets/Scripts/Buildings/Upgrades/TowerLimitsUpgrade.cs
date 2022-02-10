@@ -23,7 +23,6 @@ public class TowerLimitsUpgrade : EmptyUpgrade
         base.Upgrade();
 
         UpgradeChanges.text = (CurrentLevel > 0 ? LevelsValues[CurrentLevel - 1].ToString() : UpgradableBuilding.warriorsLimit.ToString()) + " -> " + LevelsValues[CurrentLevel].ToString();
-        ThisUpgradeButton.GetComponentInChildren<TextMeshProUGUI>().text = CurrentLevel.ToString() + " " + "LV.";
 
         if (CurrentLevel >= LevelsValues.Length)
         {
