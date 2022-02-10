@@ -23,11 +23,13 @@ public class MultiplierUpgrade : EmptyUpgrade
         UpgradableBuilding.ChangeMultiplier(LevelsValues[CurrentLevel]);
         base.Upgrade();
 
-        UpgradeChanges.text = (CurrentLevel > 0 ? LevelsValues[CurrentLevel - 1].ToString() : UpgradableBuilding.producableAmountMultiplier.ToString()) + " -> " + LevelsValues[CurrentLevel].ToString();
-
         if (CurrentLevel >= LevelsValues.Length)
         {
-            ThisUpgradeButton.GetComponentInChildren<TextMeshProUGUI>().text = "MAX LV.";
+            UpgradeChanges.text = "MAX LV.";
+        }
+        else
+        {
+            UpgradeChanges.text = (CurrentLevel > 0 ? LevelsValues[CurrentLevel - 1].ToString() : UpgradableBuilding.producableAmountMultiplier.ToString()) + " -> " + LevelsValues[CurrentLevel].ToString();
         }
     }
 }

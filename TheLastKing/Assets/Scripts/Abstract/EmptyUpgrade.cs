@@ -14,6 +14,9 @@ public abstract class EmptyUpgrade : MonoBehaviour
     [SerializeField] protected Button ThisUpgradeButton;
     [SerializeField] protected TextMeshProUGUI UpgradeCostGUI;
 
+    [SerializeField] protected GameObject ZeroLevelTilemap;
+    [SerializeField] protected GameObject[] UpgradeLevelTilemaps;
+
     protected int CurrentLevel = 0;
 
     protected virtual void Start()
@@ -35,9 +38,30 @@ public abstract class EmptyUpgrade : MonoBehaviour
     public virtual void Upgrade()
     {
         HQ.ManipulateResource(UpgradeMaterial, UpgradeLevelsMaterialAmount[CurrentLevel], false);
+        if (CurrentLevel < UpgradeLevelTilemaps.Length)
+        {
+            if (CurrentLevel == 0)
+            {
+                ZeroLevelTilemap.SetActive(false);
+            }
+            else
+            {
+                UpgradeLevelTilemaps[CurrentLevel - 1].SetActive(false);
+            }
+
+            UpgradeLevelTilemaps[CurrentLevel].SetActive(true);
+        }
         CurrentLevel++;
 
-        UpgradeCostGUI.text = UpgradeLevelsMaterialAmount[CurrentLevel].ToString() + " " + UpgradeMaterial.ToString();
-        ThisUpgradeButton.GetComponentInChildren<TextMeshProUGUI>().text = CurrentLevel.ToString() + " " + "LV.";
+        if (CurrentLevel >= UpgradeLevelsMaterialAmount.Length)
+        {
+            ThisUpgradeButton.GetComponentInChildren<TextMeshProUGUI>().text = "MAX LV.";
+            UpgradeCostGUI.text = "MAX LV.";
+        }
+        else
+        {
+            UpgradeCostGUI.text = UpgradeLevelsMaterialAmount[CurrentLevel].ToString() + " " + UpgradeMaterial.ToString();
+            ThisUpgradeButton.GetComponentInChildren<TextMeshProUGUI>().text = CurrentLevel.ToString() + " " + "LV.";
+        }
     }
 }

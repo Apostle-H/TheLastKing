@@ -14,8 +14,8 @@ public class VillageLimitsUpgrade : EmptyUpgrade
     protected override void Start()
     {
         base.Start();
-        UpgradeChanges.text = CurrentLevel > 0 ? (LevelsValues[CurrentLevel - 1].ToString() + " -> " + LevelsValues[CurrentLevel].ToString()) : (UpgradableBuilding.civilianLimit.ToString() + " -> " + LevelsValues[CurrentLevel].ToString());
-        UpgradeChanges.text += "\n" + (CurrentLevel > 0 ? (LevelsValues[CurrentLevel - 1].ToString() + " -> " + LevelsValues[CurrentLevel].ToString()) : (UpgradableBuilding.warriorLimit.ToString() + " -> " + LevelsValues[CurrentLevel].ToString()));
+        UpgradeChanges.text = (CurrentLevel > 0 ? LevelsValues[CurrentLevel - 1].ToString() : UpgradableBuilding.civilianLimit.ToString()) + " -> " + LevelsValues[CurrentLevel].Civilians.ToString();
+        UpgradeChanges.text += "\n" + (CurrentLevel > 0 ? LevelsValues[CurrentLevel - 1].ToString() : UpgradableBuilding.warriorLimit.ToString()) + " -> " + LevelsValues[CurrentLevel].Warriors.ToString();
     }
 
     public override void Upgrade()
@@ -23,12 +23,14 @@ public class VillageLimitsUpgrade : EmptyUpgrade
         UpgradableBuilding.ChangeLimit(LevelsValues[CurrentLevel].Civilians, LevelsValues[CurrentLevel].Warriors);
         base.Upgrade();
         
-        UpgradeChanges.text = CurrentLevel > 0 ? (LevelsValues[CurrentLevel - 1].ToString() + " -> " + LevelsValues[CurrentLevel].ToString()) : (UpgradableBuilding.civilianLimit.ToString() + " -> " + LevelsValues[CurrentLevel].ToString());
-        UpgradeChanges.text += "\n" + (CurrentLevel > 0 ? (LevelsValues[CurrentLevel - 1].ToString() + " -> " + LevelsValues[CurrentLevel].ToString()) : (UpgradableBuilding.warriorLimit.ToString() + " -> " + LevelsValues[CurrentLevel].ToString()));
-
         if (CurrentLevel >= LevelsValues.Length)
         {
-            ThisUpgradeButton.GetComponentInChildren<TextMeshProUGUI>().text = "MAX LV.";
+            UpgradeChanges.text = "MAX LV.";
+        }
+        else
+        {
+            UpgradeChanges.text = (CurrentLevel > 0 ? LevelsValues[CurrentLevel - 1].ToString() : UpgradableBuilding.civilianLimit.ToString()) + " -> " + LevelsValues[CurrentLevel].Civilians.ToString();
+            UpgradeChanges.text += "\n" + (CurrentLevel > 0 ? LevelsValues[CurrentLevel - 1].ToString() : UpgradableBuilding.warriorLimit.ToString()) + " -> " + LevelsValues[CurrentLevel].Warriors.ToString();
         }
     }
 }
