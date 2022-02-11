@@ -29,8 +29,8 @@ public class VillageLimitsUpgrade : EmptyUpgrade
         }
         else
         {
-            UpgradeChanges.text = (CurrentLevel > 0 ? LevelsValues[CurrentLevel - 1].ToString() : UpgradableBuilding.civilianLimit.ToString()) + " -> " + LevelsValues[CurrentLevel].Civilians.ToString();
-            UpgradeChanges.text += "\n" + (CurrentLevel > 0 ? LevelsValues[CurrentLevel - 1].ToString() : UpgradableBuilding.warriorLimit.ToString()) + " -> " + LevelsValues[CurrentLevel].Warriors.ToString();
+            UpgradeChanges.text = (CurrentLevel > 0 ? LevelsValues[CurrentLevel - 1].Civilians.ToString() : UpgradableBuilding.civilianLimit.ToString()) + " -> " + LevelsValues[CurrentLevel].Civilians.ToString();
+            UpgradeChanges.text += "\n" + (CurrentLevel > 0 ? LevelsValues[CurrentLevel - 1].Warriors.ToString() : UpgradableBuilding.warriorLimit.ToString()) + " -> " + LevelsValues[CurrentLevel].Warriors.ToString();
         }
     }
 }

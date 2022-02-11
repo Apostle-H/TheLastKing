@@ -21,7 +21,7 @@ public class Tower : MonoBehaviour
 
     private void Start()
     {
-        WarriorsInGUI.text = WarriorsAmount.ToString() + "/" + WarriorsLimit.ToString();
+        WarriorsInGUI.text = WarriorsAmount.ToString() + "|" + WarriorsLimit.ToString();
     }
 
     private void Update()

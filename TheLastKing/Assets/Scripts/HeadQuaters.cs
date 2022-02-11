@@ -46,8 +46,19 @@ public class HeadQuaters : MonoBehaviour
     public int civilians { get { return Civilians; } }
     public int warriors { get { return Warriors; } }
 
+    private int AllApples;
+    private int AllSidr;
+    private int AllCivilians = 1;
+    private int AllWarrios;
+    private int ConsumedSidr;
+    private int FallenCivilians;
+    private int FallenWarriors;
+    private int OvercomeWavesCount;
+    private int OvercomeEnemiesCount;
+
     private void Start()
     {
+        Pause.isPaused = false;
         WriteResourceValues(resourceType.apples);
         WriteResourceValues(resourceType.sidr);
         WriteResourceValues(resourceType.civilians);
@@ -83,6 +94,25 @@ public class HeadQuaters : MonoBehaviour
 
                 WriteResourceValues(resourceType.warriors);
                 break;
+        }
+
+        if (getOrLose)
+        {
+            switch (resource)
+            {
+                case resourceType.apples:
+                    AllApples += amount;
+                    break;
+                case resourceType.sidr:
+                    AllSidr += amount;
+                    break;
+                case resourceType.civilians:
+                    AllCivilians += amount;
+                    break;
+                case resourceType.warriors:
+                    AllWarrios += amount;
+                    break;
+            }
         }
     }
 
@@ -188,12 +218,16 @@ public class HeadQuaters : MonoBehaviour
 
     public void Win()
     {
+        Pause.isPaused = true;
         WinPanel.SetActive(true);
+        WinPanel.GetComponent<CountStats>().PrintStats(AllApples, AllSidr, AllCivilians, AllWarrios, ConsumedSidr, FallenCivilians, FallenWarriors, OvercomeWavesCount, OvercomeEnemiesCount);
     }
 
     public void Lose()
     {
+        Pause.isPaused = true;
         LosePanel.SetActive(true);
+        LosePanel.GetComponent<CountStats>().PrintStats(AllApples, AllSidr, AllCivilians, AllWarrios, ConsumedSidr, FallenCivilians, FallenWarriors, OvercomeWavesCount, OvercomeEnemiesCount);
     }
 
 
@@ -212,10 +246,10 @@ public class HeadQuaters : MonoBehaviour
                 SidrGUI.text = Sidr.ToString();
                 break;
             case resourceType.civilians:
-                CiviliansGUI.text = Civilians.ToString() + "/" + Village.civilianLimit.ToString();
+                CiviliansGUI.text = Civilians.ToString() + "I" + Village.civilianLimit.ToString();
                 break;
             case resourceType.warriors:
-                WarriorsGUI.text = Warriors.ToString() + "/" + Village.warriorLimit.ToString();
+                WarriorsGUI.text = Warriors.ToString() + "I" + Village.warriorLimit.ToString();
                 break;
         }
     }

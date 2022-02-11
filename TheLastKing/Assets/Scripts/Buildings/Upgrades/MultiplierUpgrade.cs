@@ -15,7 +15,7 @@ public class MultiplierUpgrade : EmptyUpgrade
     protected override void Start()
     {
         base.Start();
-        UpgradeChanges.text = (CurrentLevel > 0 ? LevelsValues[CurrentLevel - 1].ToString() : UpgradableBuilding.producableAmountMultiplier.ToString()) + " -> " + LevelsValues[CurrentLevel].ToString();
+        UpgradeChanges.text = (CurrentLevel > 0 ? LevelsValues[CurrentLevel - 1].ToString().Replace(',', '.') : UpgradableBuilding.producableAmountMultiplier.ToString().Replace(',', '.')) + " -> " + LevelsValues[CurrentLevel].ToString().Replace(',', '.');
     }
 
     public override void Upgrade()
@@ -29,7 +29,7 @@ public class MultiplierUpgrade : EmptyUpgrade
         }
         else
         {
-            UpgradeChanges.text = (CurrentLevel > 0 ? LevelsValues[CurrentLevel - 1].ToString() : UpgradableBuilding.producableAmountMultiplier.ToString()) + " -> " + LevelsValues[CurrentLevel].ToString();
+            UpgradeChanges.text = (CurrentLevel > 0 ? LevelsValues[CurrentLevel - 1].ToString().Replace(',', '.') : UpgradableBuilding.producableAmountMultiplier.ToString().Replace(',', '.')) + " -> " + LevelsValues[CurrentLevel].ToString().Replace(',', '.');
         }
     }
 }
