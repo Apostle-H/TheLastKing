@@ -35,6 +35,8 @@ public class HeadQuaters : MonoBehaviour
     [SerializeField] private GameObject WinPanel;
     [SerializeField] private GameObject LosePanel;
 
+    [SerializeField] private GameObject PauseButton;
+
     private float applesEventMultiplier = 1;
     private float sidrEventMultiplier = 1;
     private float civiliansEventMultiplier = 1;
@@ -182,9 +184,14 @@ public class HeadQuaters : MonoBehaviour
     {
         Sidr -= Warriors;
 
+        ConsumedSidr += Warriors + Sidr;
+
         if (Sidr < 0)
         {
             Warriors += Sidr;
+
+            FallenWarriors += Mathf.Abs(Sidr);
+
             Sidr = 0;
         }
 
@@ -199,18 +206,25 @@ public class HeadQuaters : MonoBehaviour
     public void War(int enemyAmount)
     {
         Warriors -= (enemyAmount - Tower.warriorsAmount);
+        FallenWarriors += (enemyAmount - Tower.warriorsAmount) + Warriors;
+        OvercomeEnemiesCount += (enemyAmount - Tower.warriorsAmount) + Warriors;
         if (Warriors < 0)
         {
             Civilians += Warriors * 2;
+
+            FallenCivilians += Mathf.Abs(Warriors * 2) + Civilians;
+            OvercomeEnemiesCount += (Mathf.Abs(Warriors * 2) + Civilians) / 2;
+
             Warriors = 0;
             if (Civilians < 1)
             {
-                Lose();
                 Civilians = 0;
+                Lose();
             }
 
             Garden.UpdateCiviliansAmount(Civilians);
         }
+        OvercomeWavesCount++;
 
         WriteResourceValues(resourceType.civilians);
         WriteResourceValues(resourceType.warriors);
@@ -218,6 +232,7 @@ public class HeadQuaters : MonoBehaviour
 
     public void Win()
     {
+        PauseButton.SetActive(false);
         Pause.isPaused = true;
         WinPanel.SetActive(true);
         WinPanel.GetComponent<CountStats>().PrintStats(AllApples, AllSidr, AllCivilians, AllWarrios, ConsumedSidr, FallenCivilians, FallenWarriors, OvercomeWavesCount, OvercomeEnemiesCount);
@@ -225,6 +240,7 @@ public class HeadQuaters : MonoBehaviour
 
     public void Lose()
     {
+        PauseButton.SetActive(false);
         Pause.isPaused = true;
         LosePanel.SetActive(true);
         LosePanel.GetComponent<CountStats>().PrintStats(AllApples, AllSidr, AllCivilians, AllWarrios, ConsumedSidr, FallenCivilians, FallenWarriors, OvercomeWavesCount, OvercomeEnemiesCount);
@@ -246,10 +262,10 @@ public class HeadQuaters : MonoBehaviour
                 SidrGUI.text = Sidr.ToString();
                 break;
             case resourceType.civilians:
-                CiviliansGUI.text = Civilians.ToString() + "I" + Village.civilianLimit.ToString();
+                CiviliansGUI.text = Civilians.ToString() + " I " + Village.civilianLimit.ToString();
                 break;
             case resourceType.warriors:
-                WarriorsGUI.text = Warriors.ToString() + "I" + Village.warriorLimit.ToString();
+                WarriorsGUI.text = Warriors.ToString() + " I " + Village.warriorLimit.ToString();
                 break;
         }
     }

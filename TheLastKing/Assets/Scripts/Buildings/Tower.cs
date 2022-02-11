@@ -21,7 +21,7 @@ public class Tower : MonoBehaviour
 
     private void Start()
     {
-        WarriorsInGUI.text = WarriorsAmount.ToString() + "|" + WarriorsLimit.ToString();
+        WarriorsInGUI.text = WarriorsAmount.ToString() + " I " + WarriorsLimit.ToString();
     }
 
     private void Update()
@@ -34,13 +34,13 @@ public class Tower : MonoBehaviour
         HQ.ManipulateResource(resourceType.warriors, 1, false);
         WarriorsAmount++;
 
-        WarriorsInGUI.text = WarriorsAmount.ToString() + "/" + WarriorsLimit.ToString();
+        WarriorsInGUI.text = WarriorsAmount.ToString() + " I " + WarriorsLimit.ToString();
     }
 
     public void ChangeLimit(int newWarriorLimit)
     {
         WarriorsLimit = newWarriorLimit;
 
-        WarriorsInGUI.text = WarriorsAmount.ToString() + "/" + WarriorsLimit.ToString();
+        WarriorsInGUI.text = WarriorsAmount.ToString() + "I" + WarriorsLimit.ToString();
     }
 }

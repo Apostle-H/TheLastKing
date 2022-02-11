@@ -2,18 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class Raid : Timer
 {
-    [SerializeField] private Wave[] waves;
+    [SerializeField] private Wave[] Waves;
+    [SerializeField] private TextMeshProUGUI WaveCounter;
+    [SerializeField] private TextMeshProUGUI NextWaveEnemyAmount;
 
-    private int waveIndex = 0;
-    private bool end;
+    private int WaveIndex = 0;
+    private bool End;
 
     protected override void Start()
     {
-        TimeToFill = waves[waveIndex].time;
+        TimeToFill = Waves[WaveIndex].time;
         TimeCounter = TimeToFill;
+
+        if (Waves.Length > 0)
+        {
+            WaveCounter.text = (WaveIndex + 1).ToString() + " I " + Waves.Length.ToString();
+            NextWaveEnemyAmount.text = Waves[WaveIndex].enemiesAmount.ToString();
+        }
     }
 
     protected override void Update()
@@ -24,7 +33,7 @@ public class Raid : Timer
             TimerImage.fillAmount = TimeCounter / TimeToFill;
         }
 
-        if (TimeCounter <= 0 && !end)
+        if (TimeCounter <= 0 && !End)
         {
             StartWave();
         }
@@ -33,20 +42,23 @@ public class Raid : Timer
     public void StartWave()
     {
         TimeCounter = 0;
-        HQ.War(waves[waveIndex].enemiesAmount);
+        HQ.War(Waves[WaveIndex].enemiesAmount);
         NextWave();
     }
 
     public void NextWave()
     {
-        if (++waveIndex < waves.Length)
+        if (++WaveIndex < Waves.Length)
         {
-            TimeToFill = waves[waveIndex].time;
+            WaveCounter.text = "wave" + (WaveIndex + 1).ToString() + "I" + Waves.Length.ToString();
+            NextWaveEnemyAmount.text = "enemies" + Waves[WaveIndex].enemiesAmount.ToString();
+
+            TimeToFill = Waves[WaveIndex].time;
             TimeCounter = TimeToFill;
         }
         else
         {
-            end = true;
+            End = true;
             HQ.Win();
         }
     }
